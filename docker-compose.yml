@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  client:
+    image: node:19-bullseye
+    volumes:
+      - ./:/projects/client
+    working_dir: /projects/
+
+  server:
+    image: node:19-bullseye
+    volumes:
+      - ./:/projects/
+    working_dir: /projects/server
+    command:
+      - npm
+      - run
+      - start

@@ -1,18 +1,29 @@
 version: '3.7'
 
 services:
-  client:
-    image: node:19-bullseye
-    volumes:
-      - ./:/projects/client
-    working_dir: /projects/
-
   server:
     image: node:19-bullseye
     volumes:
-      - ./:/projects/
+      - ./:/projects/:delegate
     working_dir: /projects/server
+    user: node:node
+    ports:
+      - 60011:60001
     command:
       - npm
       - run
-      - start
+      - dev
+    tty: true
+  client:
+    image: node:19-bullseye
+    volumes:
+      - ./:/projects/:delegate
+    working_dir: /projects/client
+    ports:
+      - 5173:5173
+    command:
+      - npm
+      - run
+      - dev
+    environment:
+      host: 0.0.0.0
